@@ -1,0 +1,15 @@
+
+ຄຳສັ່ງ Laravel
+
+- composer install      =   ຕິດຕັ້ງ Composer ຂອງ Laravel
+- npm i                 =   ຕິດຕັ້ງ node js packet
+- php artisan serve     =   Run Server ຂອງ Laravel
+- npm run dev           =   ຄຳສັ່ງ Run compli Laravel 
+- npm run watch         =   ຄຳສັ່ງ Compli Laravel ແລະ ຕິດຕາມ ເມື່ອມີການປ່ຽນແປງ.
+
+ຄຳສັ່ງ GitHub
+
+1. git add .                =   ການເພີ່ມໄຟລ໌ ທັງໝົດ ເຂົ້າໄປ Git
+2. git commit -m "ຄຳອະທິບາຍ" =   ການ commit ເຂົ້າ git
+3. git push                 =   ເປັນການອັບໂຫລດ ໂປຼເຈັກ ຂື້ນ Github 
+4. git pull                 =   ເປັນການອັບເດດ ໂຄດລ່າສຸດຈາກ GitHub
