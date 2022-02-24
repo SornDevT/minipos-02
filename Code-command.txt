@@ -1,5 +1,5 @@
 
-ຄຳສັ່ງ Laravel
+ຄຳສັ່ງ Laravel + vue
 
 - composer install      =   ຕິດຕັ້ງ Composer ຂອງ Laravel
 - npm i                 =   ຕິດຕັ້ງ node js packet
