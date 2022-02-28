@@ -226,7 +226,6 @@ export default {
 			this.FormProduct.amount = '';
 			this.FormProduct.price_buy = '';
 			this.FormProduct.price_sell = '';
-
 			this.FormShow = false
 
 		}
