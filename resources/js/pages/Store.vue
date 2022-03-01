@@ -115,7 +115,7 @@
 										more</a></p>
 							</div>
 							<div class="card-body">
-
+									<button @click="showAlert()">Hello world</button>
 									FormShow: {{ FormShow }} <hr>
 									FormProduct:  {{ FormProduct }} <hr>
 									Data: {{ FormData }} <hr>
@@ -131,19 +131,21 @@
 												</div>
 												<div class="form-group">
 													<label for="product-count">ຈຳນວນ</label>
-													<input type="text" class="form-control" id="product-cout" v-model="FormProduct.amount" placeholder="...">
+													<cleave :options="options" class="form-control" id="product-cout" v-model="FormProduct.amount" placeholder="..."/>
+												
+
 												</div>
 											</div>
 											<div class="col-md-6">
 													<div class="form-group">
 													<label for="price-buy">ລາຄາຊື້</label>
-													<input type="text" class="form-control" id="price-buy" v-model="FormProduct.price_buy" placeholder="...">
+													<cleave :options="options" class="form-control" id="price-buy" v-model="FormProduct.price_buy" placeholder="..."/>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="price-sell">ລາຄາຂາຍ</label>
-													<input type="text" class="form-control" id="price-sell" v-model="FormProduct.price_sell" placeholder="...">
+													<cleave :options="options" class="form-control" id="price-sell" v-model="FormProduct.price_sell" placeholder="..."/>
 												</div>
 											</div>
 										</div>
@@ -168,8 +170,8 @@
 												<th scope="row">{{ list.id }}</th>
 												<td> {{ list.name }} </td>
 												<td>{{ list.amount }}</td>
-												<td>{{ list.price_buy }}</td>
-												<td class="btn-icon-list"> <button class="btn btn-info btn-icon"><i class="fa fa-edit"></i></button> <button class="btn btn-danger btn-icon"><i class="far fa-trash-alt"></i></button> </td>
+												<td>{{ formatPrice(list.price_buy) }}</td>
+												<td class="btn-icon-list"> <button class="btn btn-info btn-icon" @click="edit_product(list.id)" ><i class="fa fa-edit"></i></button> <button class="btn btn-danger btn-icon" @click="del_product(list.id)"><i class="far fa-trash-alt"></i></button> </td>
 											</tr>
 											
 										
@@ -190,13 +192,26 @@ export default {
     data() {
         return {
             FormShow:false,
+			FormType:true,
+			FormID:'',
 			FormData:[{ "id": 855, "name": "ສະບູ່", "amount": "10", "price_buy": "10000", "price_sell": "15000" }, { "id": 603, "name": "ແຟ້ມ ໂອໂມ້", "amount": "30", "price_buy": "12000", "price_sell": "18000" }, { "id": 8, "name": "ເກີບຜູ້ຊາຍ", "amount": "10", "price_buy": "30000", "price_sell": "40000" }],
 			FormProduct: {
 				name:"",
 				amount:"",
 				price_buy:"",
 				price_sell:""
-			}
+			},
+			options: {
+                    //prefix: '$',
+					numeral: true,
+					numeralPositiveOnly: true,
+					noImmediatePrefix: true,
+					rawValueTrimPrefix: true,
+					numeralIntegerScale: 10,
+					numeralDecimalScale: 2,
+					numeralDecimalMark: '.',
+					delimiter: ','
+                }
         };
     },
 
@@ -205,30 +220,120 @@ export default {
     },
 
     methods: {
-
+		formatPrice(value) {
+			let val = (value / 1).toFixed(0).replace(",", ".");
+			return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		},
 		add_store(){
 			this.FormShow = true
+			this.FormType = true;
 		},
 		close_form(){
 			this.FormShow = false
 		},
 		add_product(){
 
-			this.FormData.push({
-				id: Math.floor(Math.random() * 1000),
-				name: this.FormProduct.name,
-				amount: this.FormProduct.amount,
-				price_buy: this.FormProduct.price_buy,
-				price_sell: this.FormProduct.price_sell
-			});
+			if(this.FormType){
+				/// ເພີ່ມຂໍ້ມູນໃໝ່
+				this.FormData.push({
+					id: Math.floor(Math.random() * 1000),
+					name: this.FormProduct.name,
+					amount: this.FormProduct.amount,
+					price_buy: this.FormProduct.price_buy,
+					price_sell: this.FormProduct.price_sell
+				});
+			} else {
+				/// ທຳການອັບເດດ
+				///console.log('Update Data!')
+				this.FormData.find((i)=>i.id == this.FormID).name = this.FormProduct.name;
+				this.FormData.find((i)=>i.id == this.FormID).amount = this.FormProduct.amount;
+				this.FormData.find((i)=>i.id == this.FormID).price_buy = this.FormProduct.price_buy;
+				this.FormData.find((i)=>i.id == this.FormID).price_sell = this.FormProduct.price_sell;
+			}
+			
 
 			this.FormProduct.name = '';
 			this.FormProduct.amount = '';
 			this.FormProduct.price_buy = '';
 			this.FormProduct.price_sell = '';
+			this.FormID = '';
 			this.FormShow = false
 
+		},
+		edit_product(id){
+			//console.log("edit id:"+id);
+
+			let item = this.FormData.find( (i)=>i.id == id ); /// ຄົ້ນຫາຂໍ້ມູນ ແລ້ວເກັບໄວ້ໃນໂຕແປ item
+			this.FormShow = true;  // ສະແດງຟ້ອມ
+			this.FormType = false;
+			this.FormID = id;
+			this.FormProduct.name = item.name;
+			this.FormProduct.amount = item.amount;
+			this.FormProduct.price_buy = item.price_buy;
+			this.FormProduct.price_sell = item.price_sell;
+
+
+		},
+		del_product(id){
+			//console.log("del id:"+id);
+			
+			 this.$swal.fire({
+			title: 'ທ່ານແນ່ໃຈບໍ່?',
+			text: "ທີ່ຈະລຶບຂໍ້ມູນນີ້!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'ຢືນຍັນລຶບ!',
+			cancelButtonText: 'ຍົກເລີກ!',
+			}).then((result) => {
+			if (result.isConfirmed) {
+
+				let index = this.FormData.map((i)=>i.id).indexOf(id);
+				//console.log(index);
+				this.FormData.splice(index,1);
+				this.$swal.fire('ລຶບສຳເລັດ!','ຂໍ້ມູນໄດ້ຖຶກລຶບແລ້ວ!.','success');
+			}
+			});
+
+			
+
+		},
+
+	showAlert() {
+      // Use sweetalert2
+      //this.$swal('Hello Vue world!!!');
+
+	  this.$swal.fire({
+		title: 'ທ່ານແນ່ໃຈບໍ່?',
+		text: "ທີ່ຈະລຶບຂໍ້ມູນນີ້!",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'ຢືນຍັນລຶບ!',
+		cancelButtonText: 'ຍົກເລີກ!',
+		}).then((result) => {
+		if (result.isConfirmed) {
+
+			/// ຂຽນຄຳສັ່ງ ຕິດຕໍ່ຖານຂໍ້ມູນ
+
+
+			this.$swal.fire(
+			'ລຶບສຳເລັດ!',
+			'ຂໍ້ມູນໄດ້ຖຶກລຶບແລ້ວ!.',
+			'success'
+			)
+
+			// this.$swal.fire(
+			// 'ລຶບສຳເລັດ!',
+			// 'ຂໍ້ມູນໄດ້ຖຶກລຶບແລ້ວ!.',
+			// 'warning'
+			// )
 		}
+		});
+
+    },
         
     },
 };
