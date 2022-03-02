@@ -10,9 +10,9 @@ import Home from "../pages/Home.vue";
 
 export const routes = [
     {
-        name:"home",
+        name:"login1",
         path:"/",
-        component: Home,
+        component: Login,
     },
     {
         name:"login",

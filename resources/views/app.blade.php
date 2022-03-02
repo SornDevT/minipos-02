@@ -42,6 +42,27 @@
 </head>
 <body class="main-body app sidebar-mini">
 
+
+		@if(Auth::check())
+			@php
+			$user_auth_data = [
+				'isLoggedin' => true,
+				'user' =>  Auth::user(),
+				'urlpath' =>'',
+			];
+			@endphp
+		@else
+			@php
+			$user_auth_data = [
+				'isLoggedin' => false
+			];
+			@endphp
+		@endif
+		
+		<script>
+			window.Laravel = JSON.parse(atob('{{ base64_encode(json_encode($user_auth_data)) }}'));
+		</script>
+
         <div id="app"></div> 
 
 		<!-- Back-to-top -->
