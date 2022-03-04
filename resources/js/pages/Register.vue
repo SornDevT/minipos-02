@@ -21,11 +21,10 @@
 												<h2 class="text-primary">Get Started</h2>
 
                                                 <div class="alert alert-solid-warning" role="alert" v-if="showError">
-                                                <button aria-label="Close" class="close" data-bs-dismiss="alert" type="button">
-                                                    <span aria-hidden="true">×</span></button>
-                                                <strong>Warning!</strong> {{textError}}
-                                                good.
-                                            </div>
+                                                    <button aria-label="Close" class="close" data-bs-dismiss="alert" type="button">
+                                                        <span aria-hidden="true">×</span></button>
+                                                    <strong>ຜິດຜາດ!</strong> {{textError}}
+                                                </div>
 											
 													<div class="form-group">
 														<label>ຊື່ຜູ້ໃຊ້</label> <input class="form-control" placeholder="" v-model="name" type="text">
@@ -44,7 +43,7 @@
                                                     <button class="btn btn-main-primary btn-block" @click="Register()" >ລົງທະບຽນ</button>
 												
 												<div class="main-signup-footer mt-5">
-													<p>Already have an account? <a href="signin.html">Sign In</a></p>
+													<p>ມີຊື່ຜູ້ໃຊ້ແລ້ວ! <router-link to="/login" >ໄປໜ້າ Login</router-link></p>
 												</div>
 											</div>
 										</div>

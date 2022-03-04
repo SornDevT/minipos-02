@@ -220,7 +220,7 @@ export default {
             FormShow:false,
 			FormType:true,
 			FormID:'',
-			FormData:[{ "id": 855, "name": "ສະບູ່", "amount": "10", "price_buy": "10000", "price_sell": "15000" }, { "id": 603, "name": "ແຟ້ມ ໂອໂມ້", "amount": "30", "price_buy": "12000", "price_sell": "18000" }, { "id": 8, "name": "ເກີບຜູ້ຊາຍ", "amount": "10", "price_buy": "30000", "price_sell": "40000" }],
+			FormData:[],
 			FormProduct: {
 				name:"",
 				amount:"",
@@ -260,14 +260,36 @@ export default {
 		add_product(){
 
 			if(this.FormType){
-				/// ເພີ່ມຂໍ້ມູນໃໝ່
-				this.FormData.push({
-					id: Math.floor(Math.random() * 1000),
-					name: this.FormProduct.name,
-					amount: this.FormProduct.amount,
-					price_buy: this.FormProduct.price_buy,
-					price_sell: this.FormProduct.price_sell
+				/// ເພີ່ມຂໍ້ມູນໃໝ່ 
+				// this.FormData.push({
+				// 	id: Math.floor(Math.random() * 1000),
+				// 	name: this.FormProduct.name,
+				// 	amount: this.FormProduct.amount,
+				// 	price_buy: this.FormProduct.price_buy,
+				// 	price_sell: this.FormProduct.price_sell
+				// });
+				
+
+				let formData = new FormData();
+					formData.append('name', this.FormProduct.name);
+					formData.append('amount', this.FormProduct.amount);
+					formData.append('price_buy', this.FormProduct.price_buy);
+					formData.append('price_sell', this.FormProduct.price_sell);
+					//formData.append('file', this.imageProduct);
+					//formData.append('acc_type','expense');
+				this.$axios.get("/sanctum/csrf-cookie").then((response) => {
+					
+					this.$axios.post("/api/store/add", formData ,{headers:{ "Content-Type": "multipart/form-data"}})
+						.then((response) => {
+							this.GetStore();
+						})
+						.catch((error) => {
+						console.log(error);
+						})
 				});
+
+
+
 			} else {
 				/// ທຳການອັບເດດ
 				///console.log('Update Data!')
@@ -360,8 +382,24 @@ export default {
 		});
 
     },
+
+	GetStore(){
+
+			this.$axios.get("/sanctum/csrf-cookie").then((response) => {
+
+					this.$axios.get(`/api/store`).then((response) => {
+                        this.FormData = response.data;
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+
+			});
+	},
         
     },
+	created(){
+		this.GetStore();
+	},
 
  beforeRouteEnter(to, from, next) {
 		//window.Laravel.urlpath = to.name

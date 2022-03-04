@@ -57,8 +57,8 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $credentials = [
-            'email' => $request->email,
-            'password' => $request->password,
+            'email' => $request->email_login,
+            'password' => $request->password_login,
         ];
 
         if (Auth::attempt($credentials)) {

@@ -27,25 +27,22 @@
 												<div class="main-signup-header">
 													<h2>Welcome back!</h2>
 													<h5 class="fw-semibold mb-4">Please sign in to continue.</h5>
-													<form action="#">
+												
 														<div class="form-group">
-															<label>Email</label> <input class="form-control" placeholder="Enter your email" type="text">
+															<label>ອີເມວລ໌</label> <input class="form-control" v-model="email" placeholder="Enter your email" type="text">
 														</div>
 														<div class="form-group">
-															<label>Password</label> <input class="form-control" placeholder="Enter your password" type="password">
-														</div><button class="btn btn-main-primary btn-block">Sign In</button>
-														<div class="row row-xs">
-															<div class="col-sm-6">
-																<button class="btn btn-block"><i class="fab fa-facebook-f"></i> Signup with Facebook</button>
-															</div>
-															<div class="col-sm-6 mg-t-10 mg-sm-t-0">
-																<button class="btn btn-info btn-block btn-b"><i class="fab fa-twitter"></i> Signup with Twitter</button>
-															</div>
-														</div>
-													</form>
+															<label>ລະຫັດຜ່ານ</label> <input class="form-control" v-model="password" @keyup.enter="Login()"  placeholder="Enter your password" type="password">
+														</div><button class="btn btn-main-primary btn-block" @click="Login()" >ເຂົ້າສູ່ລະບົບ</button>
+
+                                                         <div class="alert alert-solid-warning mt-4" role="alert" v-if="showError">
+                                                            <button aria-label="Close" class="close" data-bs-dismiss="alert" type="button">
+                                                                <span aria-hidden="true">×</span></button>
+                                                            <strong>ຜິດຜາດ!</strong> {{textError}}
+                                                        </div>
+
 													<div class="main-signin-footer mt-5">
-														<p><a href="">Forgot password?</a></p>
-														<p>Don't have an account? <a href="page-signup.html">Create an Account</a></p>
+														<p>ບໍ່ໄດ້ລົງທະບຽນ? <router-link to="/register" >ຄຼິກເພື່ອລົງທະບຽນ</router-link></p>
 													</div>
 												</div>
 											</div>
@@ -65,7 +62,10 @@ export default {
 
     data() {
         return {
-            
+            email:'',
+            password:'',
+            showError:false,
+            textError:''
         };
     },
 
@@ -74,7 +74,41 @@ export default {
     },
 
     methods: {
-        
+        Login(){
+                if(this.email !='' && this.password !=''){
+                    this.showError = false;
+                    this.textError = "";
+
+                    if(this.password.length > 4){
+                        this.showError = false;
+                        this.textError = "";
+
+                            this.$axios.post('api/login',{
+                                email_login: this.email,
+                                password_login: this.password
+                            }).then(response => {
+
+                                if(response.data.success){
+                                        window.location.href = '/store';
+                                } else {
+                                    this.showError = true;
+                                    this.textError = response.data.message;
+                                }
+
+                            }).catch(function(error){
+                                console.error(error);
+                            });
+
+                    } else {
+                        this.showError = true;
+                        this.textError = "ລະຫັດຜ່ານ ຕ້ອງຫຼາຍກ່ວາ 4 ຕົວອັກສອນ!";
+                    }
+
+                } else {
+                    this.showError = true;
+                    this.textError = "ກະລະນາປ້ອນອີເມວ ແລະ ລະຫັດຜ່ານ!"
+                }
+        }
     },
 };
 </script>

@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\StoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +22,16 @@ use App\Http\Controllers\API\UserController;
 // });
 
 Route::post('register',[UserController::class, 'register']);
+Route::post('login',[UserController::class, 'login']);
+Route::post('logout',[UserController::class, 'logout']);
+
+
+Route::group(['prefix' => 'store', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('/', [StoreController::class, 'index']);
+    Route::post('add', [StoreController::class, 'add']);
+    // Route::get('edit/{id}', [StoreController::class, 'edit']);
+    // Route::post('update/{id}', [StoreController::class, 'update']);
+    // Route::delete('delete/{id}', [StoreController::class, 'delete']);
+});
+
+
