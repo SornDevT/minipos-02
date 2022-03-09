@@ -137,14 +137,17 @@
 										<button class="btn btn-danger-gradient" @click="close_form()"  v-if="FormShow" >ຍົກເລີກ</button>
 									</span>
 								</div>
-								<p class="tx-12 tx-gray-500 mb-2">Example of Valex Striped Rows.. <a href="">Learn
-										more</a></p>
+								
+								<div class="row">
+									<div class="col-md-6"></div>
+									<div class="col-md-6">
+										<input type="text" class="form-control" v-model="SearchProduct" @keyup.enter="GetStore()"  placeholder="ຄົ້ນຫາຂໍ້ມູນ...">
+									</div>
+								</div>
+
 							</div>
 							<div class="card-body">
-									<button @click="showAlert()">Hello world</button>
-									FormShow: {{ FormShow }} <hr>
-									FormProduct:  {{ FormProduct }} <hr>
-									Data: {{ FormData }} <hr>
+							
 
 								<div class="form-store row" v-if="FormShow">
 									<div class="col-md-3">aaaa</div>
@@ -192,7 +195,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr v-for="list in FormData" :key="list.id">
+											<tr v-for="list in FormData.data" :key="list.id">
 												<th scope="row">{{ list.id }}</th>
 												<td> {{ list.name }} </td>
 												<td>{{ list.amount }}</td>
@@ -203,6 +206,7 @@
 										
 										</tbody>
 									</table>
+									<pagination :pagination="FormData" @paginate="GetStore($event)" :offset="4" ></pagination>
 								</div><!-- bd -->
 							</div><!-- bd -->
 						</div><!-- bd -->
@@ -217,6 +221,7 @@ export default {
 
     data() {
         return {
+			SearchProduct:'',
             FormShow:false,
 			FormType:true,
 			FormID:'',
@@ -244,7 +249,13 @@ export default {
     mounted() {
         
     },
-
+	watch:{
+		SearchProduct(){
+			if(this.SearchProduct==''){
+				this.GetStore()
+			}
+		}
+	},
     methods: {
 		formatPrice(value) {
 			let val = (value / 1).toFixed(0).replace(",", ".");
@@ -293,10 +304,40 @@ export default {
 			} else {
 				/// ທຳການອັບເດດ
 				///console.log('Update Data!')
-				this.FormData.find((i)=>i.id == this.FormID).name = this.FormProduct.name;
-				this.FormData.find((i)=>i.id == this.FormID).amount = this.FormProduct.amount;
-				this.FormData.find((i)=>i.id == this.FormID).price_buy = this.FormProduct.price_buy;
-				this.FormData.find((i)=>i.id == this.FormID).price_sell = this.FormProduct.price_sell;
+				// this.FormData.find((i)=>i.id == this.FormID).name = this.FormProduct.name;
+				// this.FormData.find((i)=>i.id == this.FormID).amount = this.FormProduct.amount;
+				// this.FormData.find((i)=>i.id == this.FormID).price_buy = this.FormProduct.price_buy;
+				// this.FormData.find((i)=>i.id == this.FormID).price_sell = this.FormProduct.price_sell;
+			//console.log(this.FormID)
+
+			
+					
+					let formData = new FormData();
+					formData.append('name', this.FormProduct.name);
+					formData.append('amount', this.FormProduct.amount);
+					formData.append('price_buy', this.FormProduct.price_buy);
+					formData.append('price_sell', this.FormProduct.price_sell);
+					//formData.append('file', this.imageProduct);
+					console.log(this.FormID)
+					let idupdate = this.FormID;
+				this.$axios.get("/sanctum/csrf-cookie").then((response) => {  // ກວດຊອບການ Login
+					this.$axios.post(`/api/store/update/${idupdate}`, formData ,{headers:{ "Content-Type": "multipart/form-data"}})
+					.then((response) => {
+						
+					this.GetStore();
+
+					// if (response.data.success) {
+					// 	this.GetAllStore();
+					// } else {
+					// 	console.log(response.data.message);
+					// }
+					})
+					.catch((error) => {
+					console.log(error);
+					});
+			});
+	
+
 			}
 			
 
@@ -311,15 +352,38 @@ export default {
 		edit_product(id){
 			//console.log("edit id:"+id);
 
-			let item = this.FormData.find( (i)=>i.id == id ); /// ຄົ້ນຫາຂໍ້ມູນ ແລ້ວເກັບໄວ້ໃນໂຕແປ item
+			//let item = this.FormData.find( (i)=>i.id == id ); /// ຄົ້ນຫາຂໍ້ມູນ ແລ້ວເກັບໄວ້ໃນໂຕແປ item
 			this.FormShow = true;  // ສະແດງຟ້ອມ
 			this.FormType = false;
 			this.FormID = id;
-			this.FormProduct.name = item.name;
-			this.FormProduct.amount = item.amount;
-			this.FormProduct.price_buy = item.price_buy;
-			this.FormProduct.price_sell = item.price_sell;
+			
+			// this.FormProduct.name = item.name;
+			// this.FormProduct.amount = item.amount;
+			// this.FormProduct.price_buy = item.price_buy;
+			// this.FormProduct.price_sell = item.price_sell;
 
+			this.$axios.get("/sanctum/csrf-cookie").then((response) => {
+				this.$axios.get(`/api/store/edit/${id}`)
+                    .then((response) => {
+						//console.log(response)
+
+						this.FormProduct.name = response.data.name
+						this.FormProduct.amount = response.data.amount
+						this.FormProduct.price_buy = response.data.price_buy
+						this.FormProduct.price_sell = response.data.price_sell
+
+
+						//this.imageProduct = response.data.images
+						//  if(response.data.images){
+                        //     this.imagePreview = window.location.origin+"/assets/images/"+response.data.images;
+                        // } else {
+                        //     this.imagePreview = window.location.origin+"/assets/images/add_images.png";
+                        // }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+				});
 
 		},
 		del_product(id){
@@ -337,10 +401,22 @@ export default {
 			}).then((result) => {
 			if (result.isConfirmed) {
 
-				let index = this.FormData.map((i)=>i.id).indexOf(id);
-				//console.log(index);
-				this.FormData.splice(index,1);
-				this.$swal.fire('ລຶບສຳເລັດ!','ຂໍ້ມູນໄດ້ຖຶກລຶບແລ້ວ!.','success');
+				// let index = this.FormData.map((i)=>i.id).indexOf(id);
+				// //console.log(index);
+				// this.FormData.splice(index,1);
+				// this.$swal.fire('ລຶບສຳເລັດ!','ຂໍ້ມູນໄດ້ຖຶກລຶບແລ້ວ!.','success');
+				this.$axios.get("/sanctum/csrf-cookie").then((response) => {
+					this.$axios.delete(`/api/store/delete/${id}`)
+						.then((response) => {
+							//this.FormData = response.data;
+							//if (response.data.success) {
+								this.GetStore();
+								//}
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				});
 			}
 			});
 
@@ -383,11 +459,10 @@ export default {
 
     },
 
-	GetStore(){
+	GetStore(page){
 
 			this.$axios.get("/sanctum/csrf-cookie").then((response) => {
-
-					this.$axios.get(`/api/store`).then((response) => {
+					this.$axios.get(`/api/store?page=${page}&s=${this.SearchProduct}`).then((response) => {
                         this.FormData = response.data;
                     }).catch((error) => {
                         console.log(error);

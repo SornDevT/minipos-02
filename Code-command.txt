@@ -4,6 +4,7 @@
 - composer install      =   ຕິດຕັ້ງ Composer ຂອງ Laravel
 - npm i                 =   ຕິດຕັ້ງ node js packet
 - php artisan serve     =   Run Server ຂອງ Laravel
+- php artisan route:cache = ທຳການເຄີຍຄ່າຂອງ route ໃນ Laravel
 - npm run dev           =   ຄຳສັ່ງ Run compli Laravel 
 - npm run watch         =   ຄຳສັ່ງ Compli Laravel ແລະ ຕິດຕາມ ເມື່ອມີການປ່ຽນແປງ.
 

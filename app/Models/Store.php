@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Store extends Model
 {
     use HasFactory;
-    protected $filelabel = ['name','images','amount','price_buy','price_sell'];
+    protected $fillable = ['name','images','amount','price_buy','price_sell'];
 }
