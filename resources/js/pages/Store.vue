@@ -150,7 +150,10 @@
 							
 
 								<div class="form-store row" v-if="FormShow">
-									<div class="col-md-3">aaaa</div>
+									<div class="col-md-3">
+										<img :src="imagePreview" class="mb-2" style="width:100%">
+										<input type="file" class="form-control" @change="onSeclected" >
+									</div>
 									<div class="col-md-9">
 										<div class="row">
 											<div class="col-md-12">
@@ -221,6 +224,8 @@ export default {
 
     data() {
         return {
+			imagePreview:window.location.origin+'/assets/img/add-image.jpg',
+			imageProduct:'',
 			SearchProduct:'',
             FormShow:false,
 			FormType:true,
@@ -257,13 +262,28 @@ export default {
 		}
 	},
     methods: {
+		onSeclected(event){
+			this.imageProduct = event.target.files[0];
+			console.log(this.imagePreview)
+			let reader = new FileReader();
+			reader.readAsDataURL(this.imageProduct)
+			reader.addEventListener("load", function(){
+				this.imagePreview = reader.result;
+			}.bind(this), false)
+		},
 		formatPrice(value) {
 			let val = (value / 1).toFixed(0).replace(",", ".");
 			return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		},
 		add_store(){
+			this.FormProduct.name = '';
+			this.FormProduct.amount = '';
+			this.FormProduct.price_buy = '';
+			this.FormProduct.price_sell = '';
+			this.FormID = '';
 			this.FormShow = true
 			this.FormType = true;
+			this.imagePreview = window.location.origin+'/assets/img/add-image.jpg';
 		},
 		close_form(){
 			this.FormShow = false
@@ -286,13 +306,23 @@ export default {
 					formData.append('amount', this.FormProduct.amount);
 					formData.append('price_buy', this.FormProduct.price_buy);
 					formData.append('price_sell', this.FormProduct.price_sell);
-					//formData.append('file', this.imageProduct);
+					formData.append('file', this.imageProduct);
 					//formData.append('acc_type','expense');
 				this.$axios.get("/sanctum/csrf-cookie").then((response) => {
 					
 					this.$axios.post("/api/store/add", formData ,{headers:{ "Content-Type": "multipart/form-data"}})
 						.then((response) => {
 							this.GetStore();
+
+							
+						this.FormProduct.name = '';
+						this.FormProduct.amount = '';
+						this.FormProduct.price_buy = '';
+						this.FormProduct.price_sell = '';
+						this.FormID = '';
+						this.FormShow = false;
+						this.imageProduct = '';
+
 						})
 						.catch((error) => {
 						console.log(error);
@@ -317,14 +347,23 @@ export default {
 					formData.append('amount', this.FormProduct.amount);
 					formData.append('price_buy', this.FormProduct.price_buy);
 					formData.append('price_sell', this.FormProduct.price_sell);
-					//formData.append('file', this.imageProduct);
-					console.log(this.FormID)
+					formData.append('file', this.imageProduct);
+					//console.log(this.FormID)
 					let idupdate = this.FormID;
 				this.$axios.get("/sanctum/csrf-cookie").then((response) => {  // ກວດຊອບການ Login
 					this.$axios.post(`/api/store/update/${idupdate}`, formData ,{headers:{ "Content-Type": "multipart/form-data"}})
 					.then((response) => {
 						
 					this.GetStore();
+
+					this.FormProduct.name = '';
+						this.FormProduct.amount = '';
+						this.FormProduct.price_buy = '';
+						this.FormProduct.price_sell = '';
+						this.FormID = '';
+						this.FormShow = false;
+						this.imageProduct = '';
+						
 
 					// if (response.data.success) {
 					// 	this.GetAllStore();
@@ -341,12 +380,6 @@ export default {
 			}
 			
 
-			this.FormProduct.name = '';
-			this.FormProduct.amount = '';
-			this.FormProduct.price_buy = '';
-			this.FormProduct.price_sell = '';
-			this.FormID = '';
-			this.FormShow = false
 
 		},
 		edit_product(id){
@@ -373,12 +406,12 @@ export default {
 						this.FormProduct.price_sell = response.data.price_sell
 
 
-						//this.imageProduct = response.data.images
-						//  if(response.data.images){
-                        //     this.imagePreview = window.location.origin+"/assets/images/"+response.data.images;
-                        // } else {
-                        //     this.imagePreview = window.location.origin+"/assets/images/add_images.png";
-                        // }
+						this.imageProduct = response.data.images
+						 if(response.data.images){
+                            this.imagePreview = window.location.origin+"/assets/img/"+response.data.images;
+                        } else {
+                            this.imagePreview = window.location.origin+'/assets/img/add-image.jpg';
+                        }
                     })
                     .catch((error) => {
                         console.log(error);
