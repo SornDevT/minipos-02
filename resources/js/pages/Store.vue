@@ -493,7 +493,6 @@ export default {
     },
 
 	GetStore(page){
-
 			this.$axios.get("/sanctum/csrf-cookie").then((response) => {
 					this.$axios.get(`/api/store?page=${page}&s=${this.SearchProduct}`).then((response) => {
                         this.FormData = response.data;
