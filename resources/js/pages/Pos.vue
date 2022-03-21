@@ -59,13 +59,13 @@
                     <div class="card-body">
                         <h4 class="card-title text-info d-flex justify-content-between">
                             <span><strong> ລວມຍອດເງິນ: </strong></span>
-                            <span><strong>00 ກີບ</strong></span>
+                            <span><strong> {{ formatPrice(totalAmount) }} ກີບ</strong></span>
                         </h4>
                         <button
                             type="button"
                             class="btn btn-success text-white mb-2"
                             style="width: 100%"
-                            :disabled="checkPay"
+                            :disabled="checkpay"
                             @click="BtPay"
                         >
                             <i class="mdi mdi-currency-usd"></i> ຊຳລະເງິນ
@@ -83,14 +83,14 @@
                                             ລາຄາ
                                         </th>
                                         <th width="130" class="text-end">
-                                            ຍອດລວມ ()
+                                            ຍອດລວມ (<i @click="DelAlllist()" class="fa fa-times-circle text-danger cursor-poiter"></i>)
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                    <tr v-for="item in ListOrder" :key="item.id">
                                        <td>{{item.name}}</td>
-                                       <td>{{formatPrice(item.price_sell)}} <br> <i class="fa fa-minus-circle text-info cursor-poiter"></i> {{ formatPrice(item.order_amount) }} <i class="fa fa-plus-circle text-info cursor-poiter"></i> | <i class="fa fa-times-circle text-danger cursor-poiter"></i> </td>
+                                       <td>{{formatPrice(item.price_sell)}} <br> <i @click="DelOne(item.id)" class="fa fa-minus-circle text-info cursor-poiter"></i> {{ formatPrice(item.order_amount) }} <i @click="AddOne(item.id)" class="fa fa-plus-circle text-info cursor-poiter"></i> | <i @click="DelOnelist(item.id)" class="fa fa-times-circle text-danger cursor-poiter"></i> </td>
                                        <td>{{ formatPrice(item.price_sell*item.order_amount) }}</td>
                                    </tr>
                                 </tbody>
@@ -101,6 +101,74 @@
                 </div>
         
         </div>
+
+                    <div id="Modal_Pay" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel">ຊຳລະສິນຄ້າ</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                            </div>
+                                             <div class="modal-body">
+                                               <h4 class="card-title text-info d-flex justify-content-between">  <span> <strong> ລວມຍອດເງິນ: </strong></span> <span><strong>{{formatPrice(totalAmount)}} ກີບ</strong></span>  </h4>
+                                               <h4 class="card-title text-info d-flex justify-content-between">  <span> <strong> ຮັບເງິນນຳລູກຄ້າ: </strong></span> <span><strong>{{formatPrice(CashAmount)}} ກີບ</strong></span>  </h4>
+                                               <h4 class="card-title text-danger d-flex justify-content-between" v-if="CashBack>0">  <span> <strong> ເງິນທອນ: </strong></span> <span><strong>{{formatPrice(CashBack)}} ກີບ</strong></span>  </h4>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" v-model="CashAmount" style="text-align:right;" >
+                                                    </div>
+                                                 <div class="p-2 justify-content-center d-flex">
+                                                        <div class="row" style="width:250px">
+                                                        <div class="col-4 text-center  mt-2">
+                                                            <a  class="btn btn-primary btn-lg text-white" @click="AddNum(1)" style="width:60px">1</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a class="btn btn-primary btn-lg text-white" @click="AddNum(2)" style="width:60px">2</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a class="btn btn-primary btn-lg text-white" @click="AddNum(3)" style="width:60px">3</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a class="btn btn-primary btn-lg text-white" @click="AddNum(4)" style="width:60px">4</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a class="btn btn-primary btn-lg text-white" @click="AddNum(5)" style="width:60px">5</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <button type="button" class="btn btn-primary btn-lg text-white" @click="AddNum(6)" style="width:60px">6</button>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a class="btn btn-primary btn-lg text-white" @click="AddNum(7)" style="width:60px">7</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a class="btn btn-primary btn-lg text-white" @click="AddNum(8)" style="width:60px">8</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a class="btn btn-primary btn-lg text-white" @click="AddNum(9)" style="width:60px">9</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a class="btn btn-primary btn-lg text-white" @click="AddNum('00')" style="width:60px">00</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a class="btn btn-primary btn-lg text-white" @click="AddNum(0)" style="width:60px">0</a>
+                                                        </div>
+                                                        <div class="col-4 text-center mt-2">
+                                                            <a  class="btn btn-danger btn-lg text-white" @click="AddNum('-')" style="width:60px"><i class="fas fa-long-arrow-alt-left"></i></a>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row justify-content-center d-flex mt-2 text-center">
+                                                        <button type="button" class="btn btn-success" @click="ConfirmPay()"  style="width:180px;" :disabled="CheckCPay"><i class="fas fa-coins"></i> ຍືນຍັນຊຳລ່ະເງິນ </button>
+                                                    </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info waves-effect text-white" data-bs-dismiss="modal">ປິດ</button>
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
     </div>
 </template>
 
@@ -114,6 +182,8 @@ export default {
             SearchProduct:'',
             urlLocaltion: window.location.origin,
             ListOrder:[],
+            CashAmount:'',
+            CashBack:'',
         };
     },
 
@@ -125,9 +195,94 @@ export default {
 			if(this.SearchProduct==''){
 				this.GetStore()
 			}
-		}
+		},
 	},
+    computed:{
+        totalAmount(){
+           return this.ListOrder.reduce((num, item) => num + item.price_sell * item.order_amount, 0)
+        },
+        checkpay(){
+            if(this.totalAmount){
+                return false
+            } else {
+                return true
+            }
+        },
+        CashBack(){
+           return parseInt(this.CashAmount)-parseInt(this.totalAmount)
+        },
+        CheckCPay(){
+            if(parseInt(this.CashAmount)-parseInt(this.totalAmount)>=0){
+                return false
+            } else {
+                return true
+            }
+        }
+    },
     methods: {
+        ConfirmPay(){
+                
+        },
+        AddNum(num){
+           // console.log(num);
+           if(num=='-'){
+               this.CashAmount = this.CashAmount.slice(0,-1)
+           } else {
+               this.CashAmount = this.CashAmount + num
+           }
+           
+        },
+        BtPay(){
+            $('#Modal_Pay').modal('show');
+        },
+        AddOne(id){
+            //console.log('add one:' + id)
+            let item = this.DataProduct.data.find(((i)=>i.id==id));
+
+            // ວິທີເກົ່າ -----------------------------------
+            // if(this.ListOrder.find((i)=>i.id==id)){
+            //     let old_order_amount = this.ListOrder.find((i)=>i.id==id).order_amount;
+
+            //     if(item.amount-old_order_amount>0){
+            //         this.ListOrder.find((i)=>i.id==id).order_amount = old_order_amount+1;
+            //     } else {
+            //         alert('ສິນຄ້າໝົດ!');
+            //     }
+            // }
+
+            //ວິທີໃໝ່ -----------------------------------
+
+            let list_order = this.ListOrder.find((i)=>i.id==id);
+            
+            if(list_order){
+                let old_order_amount = list_order.order_amount;
+                if(item.amount-old_order_amount>0){
+                    list_order.order_amount = old_order_amount+1;
+                } else {
+                    alert('ສິນຄ້າໝົດ!');
+                }
+            }
+            // ຈົບ ວິທີໃໝ່
+        },
+        DelOne(id){
+            //console.log('Del one:' + id)
+            if(this.ListOrder.find((i)=>i.id==id)){
+                let old_order_amount = this.ListOrder.find((i)=>i.id==id).order_amount;
+
+                if(old_order_amount-1>0){
+                    this.ListOrder.find((i)=>i.id==id).order_amount = old_order_amount-1;
+                } else {
+                    this.ListOrder.splice(this.ListOrder.map(i=>i.id).indexOf(id),1);
+                }
+            }
+        },
+        DelOnelist(id){
+            ///console.log('Del List one:' + id)
+             this.ListOrder.splice(this.ListOrder.map(i=>i.id).indexOf(id),1);
+        },
+        DelAlllist(){
+            this.ListOrder = [];
+        },
         AddToOrder(id){
 
             let item = this.DataProduct.data.find((i)=>i.id == id);

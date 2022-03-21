@@ -19679,7 +19679,9 @@ __webpack_require__.r(__webpack_exports__);
       DataProduct: [],
       SearchProduct: '',
       urlLocaltion: window.location.origin,
-      ListOrder: []
+      ListOrder: [],
+      CashAmount: '',
+      CashBack: ''
     };
   },
   mounted: function mounted() {},
@@ -19690,7 +19692,102 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
+  computed: {
+    totalAmount: function totalAmount() {
+      return this.ListOrder.reduce(function (num, item) {
+        return num + item.price_sell * item.order_amount;
+      }, 0);
+    },
+    checkpay: function checkpay() {
+      if (this.totalAmount) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    CashBack: function CashBack() {
+      return parseInt(this.CashAmount) - parseInt(this.totalAmount);
+    },
+    CheckCPay: function CheckCPay() {
+      if (parseInt(this.CashAmount) - parseInt(this.totalAmount) >= 0) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  },
   methods: {
+    ConfirmPay: function ConfirmPay() {},
+    AddNum: function AddNum(num) {
+      // console.log(num);
+      if (num == '-') {
+        this.CashAmount = this.CashAmount.slice(0, -1);
+      } else {
+        this.CashAmount = this.CashAmount + num;
+      }
+    },
+    BtPay: function BtPay() {
+      $('#Modal_Pay').modal('show');
+    },
+    AddOne: function AddOne(id) {
+      //console.log('add one:' + id)
+      var item = this.DataProduct.data.find(function (i) {
+        return i.id == id;
+      }); // ວິທີເກົ່າ -----------------------------------
+      // if(this.ListOrder.find((i)=>i.id==id)){
+      //     let old_order_amount = this.ListOrder.find((i)=>i.id==id).order_amount;
+      //     if(item.amount-old_order_amount>0){
+      //         this.ListOrder.find((i)=>i.id==id).order_amount = old_order_amount+1;
+      //     } else {
+      //         alert('ສິນຄ້າໝົດ!');
+      //     }
+      // }
+      //ວິທີໃໝ່ -----------------------------------
+
+      var list_order = this.ListOrder.find(function (i) {
+        return i.id == id;
+      });
+
+      if (list_order) {
+        var old_order_amount = list_order.order_amount;
+
+        if (item.amount - old_order_amount > 0) {
+          list_order.order_amount = old_order_amount + 1;
+        } else {
+          alert('ສິນຄ້າໝົດ!');
+        }
+      } // ຈົບ ວິທີໃໝ່
+
+    },
+    DelOne: function DelOne(id) {
+      //console.log('Del one:' + id)
+      if (this.ListOrder.find(function (i) {
+        return i.id == id;
+      })) {
+        var old_order_amount = this.ListOrder.find(function (i) {
+          return i.id == id;
+        }).order_amount;
+
+        if (old_order_amount - 1 > 0) {
+          this.ListOrder.find(function (i) {
+            return i.id == id;
+          }).order_amount = old_order_amount - 1;
+        } else {
+          this.ListOrder.splice(this.ListOrder.map(function (i) {
+            return i.id;
+          }).indexOf(id), 1);
+        }
+      }
+    },
+    DelOnelist: function DelOnelist(id) {
+      ///console.log('Del List one:' + id)
+      this.ListOrder.splice(this.ListOrder.map(function (i) {
+        return i.id;
+      }).indexOf(id), 1);
+    },
+    DelAlllist: function DelAlllist() {
+      this.ListOrder = [];
+    },
     AddToOrder: function AddToOrder(id) {
       var item = this.DataProduct.data.find(function (i) {
         return i.id == id;
@@ -21206,68 +21303,209 @@ var _hoisted_15 = {
 var _hoisted_16 = {
   "class": "card-body"
 };
-
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+var _hoisted_17 = {
   "class": "card-title text-info d-flex justify-content-between"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, " ລວມຍອດເງິນ: ")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "00 ກີບ")])], -1
+};
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, " ລວມຍອດເງິນ: ")], -1
 /* HOISTED */
 );
 
-var _hoisted_18 = ["disabled"];
+var _hoisted_19 = ["disabled"];
 
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "mdi mdi-currency-usd"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ຊຳລະເງິນ ");
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ຊຳລະເງິນ ");
 
-var _hoisted_21 = [_hoisted_19, _hoisted_20];
-var _hoisted_22 = {
+var _hoisted_22 = [_hoisted_20, _hoisted_21];
+var _hoisted_23 = {
   "class": "table-responsive",
   style: {
     "height": "65vh",
     "overflow": "auto"
   }
 };
-var _hoisted_23 = {
+var _hoisted_24 = {
   "class": "table color-table muted-table border"
 };
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ລາຍການ"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ລາຍການ", -1
+/* HOISTED */
+);
+
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   width: "120",
   "class": "text-center"
-}, " ລາຄາ "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+}, " ລາຄາ ", -1
+/* HOISTED */
+);
+
+var _hoisted_27 = {
   width: "130",
   "class": "text-end"
-}, " ຍອດລວມ () ")])], -1
+};
+
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ຍອດລວມ (");
+
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(") ");
+
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)();
+
+var _hoisted_32 = ["onClick"];
+var _hoisted_33 = ["onClick"];
+
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" | ");
+
+var _hoisted_35 = ["onClick"];
+var _hoisted_36 = {
+  id: "Modal_Pay",
+  "class": "modal",
+  tabindex: "-1",
+  role: "dialog",
+  "aria-labelledby": "myModalLabel",
+  "aria-hidden": "true"
+};
+var _hoisted_37 = {
+  "class": "modal-dialog"
+};
+var _hoisted_38 = {
+  "class": "modal-content"
+};
+
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "modal-header"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  "class": "modal-title",
+  id: "myModalLabel"
+}, "ຊຳລະສິນຄ້າ"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "btn-close",
+  "data-bs-dismiss": "modal",
+  "aria-hidden": "true"
+})], -1
 /* HOISTED */
 );
 
-var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)();
+var _hoisted_40 = {
+  "class": "modal-body"
+};
+var _hoisted_41 = {
+  "class": "card-title text-info d-flex justify-content-between"
+};
 
-var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa fa-minus-circle text-info cursor-poiter"
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, " ລວມຍອດເງິນ: ")], -1
+/* HOISTED */
+);
+
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)();
+
+var _hoisted_44 = {
+  "class": "card-title text-info d-flex justify-content-between"
+};
+
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, " ຮັບເງິນນຳລູກຄ້າ: ")], -1
+/* HOISTED */
+);
+
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)();
+
+var _hoisted_47 = {
+  key: 0,
+  "class": "card-title text-danger d-flex justify-content-between"
+};
+
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, " ເງິນທອນ: ")], -1
+/* HOISTED */
+);
+
+var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)();
+
+var _hoisted_50 = {
+  "class": "form-group"
+};
+var _hoisted_51 = {
+  "class": "p-2 justify-content-center d-flex"
+};
+var _hoisted_52 = {
+  "class": "row",
+  style: {
+    "width": "250px"
+  }
+};
+var _hoisted_53 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_54 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_55 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_56 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_57 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_58 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_59 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_60 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_61 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_62 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_63 = {
+  "class": "col-4 text-center mt-2"
+};
+var _hoisted_64 = {
+  "class": "col-4 text-center mt-2"
+};
+
+var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fas fa-long-arrow-alt-left"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa fa-plus-circle text-info cursor-poiter"
+var _hoisted_66 = [_hoisted_65];
+var _hoisted_67 = {
+  "class": "row justify-content-center d-flex mt-2 text-center"
+};
+var _hoisted_68 = ["disabled"];
+
+var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fas fa-coins"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" | ");
+var _hoisted_70 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ຍືນຍັນຊຳລ່ະເງິນ ");
 
-var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa fa-times-circle text-danger cursor-poiter"
-}, null, -1
+var _hoisted_71 = [_hoisted_69, _hoisted_70];
+
+var _hoisted_72 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "modal-footer"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "btn btn-info waves-effect text-white",
+  "data-bs-dismiss": "modal"
+}, "ປິດ")], -1
 /* HOISTED */
 );
 
@@ -21336,33 +21574,187 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , _hoisted_7)]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatPrice($options.totalAmount)) + " ກີບ", 1
+  /* TEXT */
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-success text-white mb-2",
     style: {
       "width": "100%"
     },
-    disabled: _ctx.checkPay,
+    disabled: $options.checkpay,
     onClick: _cache[2] || (_cache[2] = function () {
-      return _ctx.BtPay && _ctx.BtPay.apply(_ctx, arguments);
+      return $options.BtPay && $options.BtPay.apply($options, arguments);
     })
-  }, _hoisted_21, 8
+  }, _hoisted_22, 8
   /* PROPS */
-  , _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ListOrder, function (item) {
+  , _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_hoisted_25, _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return $options.DelAlllist();
+    }),
+    "class": "fa fa-times-circle text-danger cursor-poiter"
+  }), _hoisted_29])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ListOrder, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: item.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatPrice(item.price_sell)) + " ", 1
     /* TEXT */
-    ), _hoisted_25, _hoisted_26, _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatPrice(item.order_amount)) + " ", 1
+    ), _hoisted_30, _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      onClick: function onClick($event) {
+        return $options.DelOne(item.id);
+      },
+      "class": "fa fa-minus-circle text-info cursor-poiter"
+    }, null, 8
+    /* PROPS */
+    , _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatPrice(item.order_amount)) + " ", 1
     /* TEXT */
-    ), _hoisted_28, _hoisted_29, _hoisted_30]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatPrice(item.price_sell * item.order_amount)), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      onClick: function onClick($event) {
+        return $options.AddOne(item.id);
+      },
+      "class": "fa fa-plus-circle text-info cursor-poiter"
+    }, null, 8
+    /* PROPS */
+    , _hoisted_33), _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      onClick: function onClick($event) {
+        return $options.DelOnelist(item.id);
+      },
+      "class": "fa fa-times-circle text-danger cursor-poiter"
+    }, null, 8
+    /* PROPS */
+    , _hoisted_35)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatPrice(item.price_sell * item.order_amount)), 1
     /* TEXT */
     )]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])])])])])])])]);
+  ))])])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_41, [_hoisted_42, _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatPrice($options.totalAmount)) + " ກີບ", 1
+  /* TEXT */
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_44, [_hoisted_45, _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatPrice($data.CashAmount)) + " ກີບ", 1
+  /* TEXT */
+  )])]), $options.CashBack > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_47, [_hoisted_48, _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatPrice($options.CashBack)) + " ກີບ", 1
+  /* TEXT */
+  )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.CashAmount = $event;
+    }),
+    style: {
+      "text-align": "right"
+    }
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.CashAmount]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[5] || (_cache[5] = function ($event) {
+      return $options.AddNum(1);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "1")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[6] || (_cache[6] = function ($event) {
+      return $options.AddNum(2);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "2")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[7] || (_cache[7] = function ($event) {
+      return $options.AddNum(3);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "3")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[8] || (_cache[8] = function ($event) {
+      return $options.AddNum(4);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "4")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[9] || (_cache[9] = function ($event) {
+      return $options.AddNum(5);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "5")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[10] || (_cache[10] = function ($event) {
+      return $options.AddNum(6);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "6")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[11] || (_cache[11] = function ($event) {
+      return $options.AddNum(7);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "7")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[12] || (_cache[12] = function ($event) {
+      return $options.AddNum(8);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "8")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[13] || (_cache[13] = function ($event) {
+      return $options.AddNum(9);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "9")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[14] || (_cache[14] = function ($event) {
+      return $options.AddNum('00');
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "00")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-primary btn-lg text-white",
+    onClick: _cache[15] || (_cache[15] = function ($event) {
+      return $options.AddNum(0);
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, "0")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-danger btn-lg text-white",
+    onClick: _cache[16] || (_cache[16] = function ($event) {
+      return $options.AddNum('-');
+    }),
+    style: {
+      "width": "60px"
+    }
+  }, _hoisted_66)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-success",
+    onClick: _cache[17] || (_cache[17] = function ($event) {
+      return $options.ConfirmPay();
+    }),
+    style: {
+      "width": "180px"
+    },
+    disabled: $options.CheckCPay
+  }, _hoisted_71, 8
+  /* PROPS */
+  , _hoisted_68)])]), _hoisted_72]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.modal-content ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.modal-dialog ")])]);
 }
 
 /***/ }),
