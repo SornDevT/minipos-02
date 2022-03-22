@@ -221,7 +221,26 @@ export default {
     },
     methods: {
         ConfirmPay(){
-                
+            
+            this.$axios.get("/sanctum/csrf-cookie").then((response) => {
+                this.$axios.post("/api/transection/add",{
+                    acc_type:'income',
+                    listorder: this.ListOrder
+                })
+                .then((response) => {
+                    if (response.data.success) {
+                        $('#Modal_Pay').modal('hide');
+                        this.ListOrder = [];
+                        this.CashAmount = '';
+                        this.GetStore();
+                    } else {
+                        console.log(response.data.message);
+                    }
+                    })
+                    .catch((error) => {
+                    console.log(error);
+                    });
+            });
         },
         AddNum(num){
            // console.log(num);
@@ -309,7 +328,7 @@ export default {
 		},
         GetStore(page){
                 this.$axios.get("/sanctum/csrf-cookie").then((response) => {
-                        this.$axios.get(`/api/store?page=${page}&s=${this.SearchProduct}`).then((response) => {
+                        this.$axios.get(`/api/store/pos?page=${page}&s=${this.SearchProduct}`).then((response) => {
                             this.DataProduct = response.data;
                             console.log(response.data)
                         }).catch((error) => {

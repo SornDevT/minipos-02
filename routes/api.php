@@ -2,9 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\StoreController;
+use App\Http\Controllers\API\TransectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +28,19 @@ Route::post('logout',[UserController::class, 'logout']);
 
 Route::group(['prefix' => 'store', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/', [StoreController::class, 'index']);
+    Route::get('pos', [StoreController::class, 'pos']);
     Route::post('add', [StoreController::class, 'add']);
     Route::get('edit/{id}', [StoreController::class, 'edit']);
     Route::post('update/{id}', [StoreController::class, 'update']);
     Route::delete('delete/{id}', [StoreController::class, 'delete']);
+});
+
+Route::group(['prefix' => 'transection', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/', [TransectionController::class, 'index']);
+    Route::post('add', [TransectionController::class, 'add']);
+    Route::get('edit/{id}', [TransectionController::class, 'edit']);
+    Route::post('update/{id}', [TransectionController::class, 'update']);
+    Route::delete('delete/{id}', [TransectionController::class, 'delete']);
 });
 
 
