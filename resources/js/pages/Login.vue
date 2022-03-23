@@ -110,6 +110,12 @@ export default {
                 }
         }
     },
+    beforeRouteEnter(to, from, next) {
+    if (window.Laravel.isLoggedin) {
+      window.location.href = "/store";
+    }
+    next();
+  },
 };
 </script>
 
