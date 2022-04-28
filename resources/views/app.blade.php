@@ -69,7 +69,7 @@
 		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
 
 		<!-- JQuery min js -->
-		<!-- <script src="assets/plugins/jquery/jquery.min.js"></script> -->
+		<script src="assets/plugins/jquery/jquery.min.js"></script>
 
 		<!-- Bootstrap Bundle js -->
 		<script src="assets/plugins/bootstrap/js/popper.min.js"></script>
@@ -109,8 +109,8 @@
 		<script src="assets/plugins/sidebar/sidebar-custom.js"></script> -->
 
 		<!-- Sticky js -->
-		<!-- <script src="assets/js/sticky.js"></script>
-		<script src="assets/js/modal-popup.js"></script> -->
+		<script src="assets/js/sticky.js"></script>
+		<script src="assets/js/modal-popup.js"></script>
 
 		<!-- Left-menu js-->
 		<!-- <script src="assets/plugins/side-menu/sidemenu.js"></script> -->
@@ -127,7 +127,7 @@
 		<script src="assets/js/jquery.vmap.sampledata.js"></script> -->
 
 		<!-- custom js -->
-		<!-- <script src="assets/js/custom.js"></script> -->
+		<script src="assets/js/custom.js"></script>
 
 
     <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>

@@ -21690,7 +21690,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"breadcrumb-header justify-content-between\"><div class=\"left-content\"><div><h2 class=\"main-content-title tx-24 mg-b-1 mg-b-lg-1\">Hi, welcome back!</h2><p class=\"mg-b-0\">Sales monitoring dashboard template.</p></div></div><div class=\"main-dashboard-header-right\"><div><label class=\"tx-13\">Customer Ratings</label><div class=\"main-star\"><i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star\"></i> <span>(14,873)</span></div></div><div><label class=\"tx-13\">Online Sales</label><h5>563,275</h5></div><div><label class=\"tx-13\">Offline Sales</label><h5>783,675</h5></div></div></div>", 1);
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "breadcrumb-header justify-content-between"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "left-content"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  "class": "main-content-title tx-24 mg-b-1 mg-b-lg-1"
+}, "ຂາຍໜ້າຮ້ານ POS")])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "main-dashboard-header-right"
+})], -1
+/* HOISTED */
+);
 
 var _hoisted_2 = {
   "class": "row row-sm"
@@ -22378,7 +22388,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"breadcrumb-header justify-content-between\"><div class=\"left-content\"><div><h2 class=\"main-content-title tx-24 mg-b-1 mg-b-lg-1\">Hi, welcome back!</h2><p class=\"mg-b-0\">Sales monitoring dashboard template.</p></div></div><div class=\"main-dashboard-header-right\"><div><label class=\"tx-13\">Customer Ratings</label><div class=\"main-star\"><i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star\"></i> <span>(14,873)</span></div></div><div><label class=\"tx-13\">Online Sales</label><h5>563,275</h5></div><div><label class=\"tx-13\">Offline Sales</label><h5>783,675</h5></div></div></div>", 1);
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "breadcrumb-header justify-content-between"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "left-content"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  "class": "main-content-title tx-24 mg-b-1 mg-b-lg-1"
+}, "ລາຍງານ")])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "main-dashboard-header-right"
+})], -1
+/* HOISTED */
+);
 
 var _hoisted_2 = {
   "class": "row row-sm"
@@ -22629,7 +22649,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"breadcrumb-header justify-content-between\"><div class=\"left-content\"><div><h2 class=\"main-content-title tx-24 mg-b-1 mg-b-lg-1\">Hi, welcome back!</h2><p class=\"mg-b-0\">Sales monitoring dashboard template.</p></div></div><div class=\"main-dashboard-header-right\"><div><label class=\"tx-13\">Customer Ratings</label><div class=\"main-star\"><i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star\"></i> <span>(14,873)</span></div></div><div><label class=\"tx-13\">Online Sales</label><h5>563,275</h5></div><div><label class=\"tx-13\">Offline Sales</label><h5>783,675</h5></div></div></div>", 1);
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "breadcrumb-header justify-content-between"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "left-content"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  "class": "main-content-title tx-24 mg-b-1 mg-b-lg-1"
+}, "ສະຕ໋ອກສິນຄ້າ")])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "main-dashboard-header-right"
+})], -1
+/* HOISTED */
+);
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "row row-sm"
@@ -22790,7 +22820,7 @@ var _hoisted_6 = {
   "class": "card-header pb-0"
 };
 var _hoisted_7 = {
-  "class": "d-flex justify-content-between"
+  "class": "d-flex justify-content-between mb-2"
 };
 
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
@@ -23074,7 +23104,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"breadcrumb-header justify-content-between\"><div class=\"left-content\"><div><h2 class=\"main-content-title tx-24 mg-b-1 mg-b-lg-1\">Hi, welcome back!</h2><p class=\"mg-b-0\">Sales monitoring dashboard template.</p></div></div><div class=\"main-dashboard-header-right\"><div><label class=\"tx-13\">Customer Ratings</label><div class=\"main-star\"><i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star active\"></i> <i class=\"typcn typcn-star\"></i> <span>(14,873)</span></div></div><div><label class=\"tx-13\">Online Sales</label><h5>563,275</h5></div><div><label class=\"tx-13\">Offline Sales</label><h5>783,675</h5></div></div></div>", 1);
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "breadcrumb-header justify-content-between"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "left-content"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  "class": "main-content-title tx-24 mg-b-1 mg-b-lg-1"
+}, "ການເຄື່ອນໄຫວ")])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "main-dashboard-header-right"
+})], -1
+/* HOISTED */
+);
 
 var _hoisted_2 = {
   "class": "row row-sm"
